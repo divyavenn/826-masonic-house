@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: panhandle-house
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: applications-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_PATH
+        value: /var/data/applications.sqlite
+      - key: ADMIN_PASSWORD
+        sync: false
