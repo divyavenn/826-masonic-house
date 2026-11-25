@@ -797,3 +797,508 @@ button.photo {
   margin: 10px 0 20px;
   text-decoration: none;
 }
+/* Compact, swipeable photo rows. */
+.document-gallery,
+.document-gallery.count-1,
+.document-gallery.count-2 {
+  display: grid;
+  grid-template-columns: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 224px;
+  gap: 12px;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: #c5c5bd transparent;
+  padding: 2px 1px 12px;
+  margin: 24px 0 36px;
+}
+.document-gallery .photo,
+.document-gallery.count-1 .photo,
+.document-gallery.count-2 .photo {
+  height: 168px;
+  scroll-snap-align: start;
+}
+.document-page p,
+.roommate-profile h3 {
+  overflow-wrap: anywhere;
+}
+/* Spreadsheet admin. Horizontal scrolling stays inside the grid. */
+.spreadsheet-admin {
+  max-width: 1680px;
+  padding: 36px 32px 64px;
+}
+.admin-login {
+  max-width: 540px;
+}
+.admin-home {
+  font-size: 14px;
+  color: #787774;
+}
+.responses .admin-heading {
+  margin: 22px 0 28px;
+  align-items: center;
+}
+.responses .admin-heading h1 {
+  margin: 0;
+  font-size: 30px;
+}
+.responses .record-count {
+  margin: 8px 0 0;
+  color: #787774;
+  font-size: 14px;
+}
+.responses button,
+.responses .button {
+  margin: 0;
+  min-height: 40px;
+}
+.admin-login-form input {
+  margin-bottom: 18px;
+}
+.sheet-toolbar {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.sheet-search {
+  flex: 1;
+  min-width: 220px;
+  max-width: 400px;
+}
+.sheet-filter {
+  min-width: 200px;
+}
+.responses .sheet-toolbar input,
+.responses .sheet-toolbar select {
+  height: 40px;
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+.sheet-export {
+  margin-left: auto !important;
+  white-space: nowrap;
+}
+.sheet-scroll {
+  width: 100%;
+  max-height: 68dvh;
+  min-height: 200px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #deded8;
+  border-radius: 6px;
+  background: #fff;
+  isolation: isolate;
+}
+.applications-sheet {
+  width: 100%;
+  min-width: 1580px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.applications-sheet th,
+.applications-sheet td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eaeae5;
+  border-right: 1px solid #eeeee9;
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap;
+  height: 64px;
+  background: #fff;
+  min-width: 0;
+  max-width: none;
+}
+.applications-sheet thead th {
+  position: sticky;
+  top: 0;
+  height: 44px;
+  background: #f0f0ed;
+  color: #787774;
+  font-weight: 500;
+  z-index: 3;
+  box-shadow: 0 1px 0 #deded8;
+}
+.applications-sheet .row-number {
+  position: sticky;
+  left: 0;
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  padding: 12px 8px;
+  text-align: center;
+  color: #a0a098;
+  background: #fafaf8;
+  z-index: 1;
+}
+.applications-sheet .name-column {
+  position: sticky;
+  left: 44px;
+  width: 190px;
+  min-width: 190px;
+  max-width: 190px;
+  font-weight: 500;
+  z-index: 1;
+  box-shadow: 1px 0 0 #e2e2dc;
+}
+.applications-sheet thead .row-number,
+.applications-sheet thead .name-column {
+  z-index: 4;
+  background: #f0f0ed;
+}
+.applications-sheet tbody tr:hover td,
+.applications-sheet tbody tr:hover th {
+  background: #fafaf7;
+}
+.sheet-name {
+  display: block !important;
+  width: 100%;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  min-height: 0 !important;
+  text-align: left;
+  justify-content: start !important;
+  color: #37352f;
+  white-space: normal;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.applications-sheet .status-cell {
+  min-width: 208px;
+  width: 208px;
+}
+.responses .status-cell select {
+  margin: 0;
+  padding: 6px 9px;
+  font-size: 13px;
+  min-height: 32px;
+  max-width: 180px;
+  border-color: #e3e3db;
+  background: #f6f6f1;
+}
+.responses .status-cell select[data-status="accepted"] {
+  background: #e9f2e5;
+  color: #3e653b;
+}
+.responses .status-cell select[data-status="no_longer_interested"],
+.responses .status-cell select[data-status="declined"] {
+  background: #f2eeea;
+  color: #827365;
+}
+.cell-save-state {
+  display: block;
+  min-height: 15px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #8b8b82;
+}
+.applications-sheet .sheet-note {
+  width: 260px;
+  min-width: 240px;
+  max-width: 280px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.sheet-note > div,
+.sheet-note-button {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.sheet-note-button {
+  width: 100%;
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.5;
+  min-height: 0 !important;
+  color: #787774;
+}
+.submitted-cell {
+  font-variant-numeric: tabular-nums;
+  color: #787774;
+}
+.sheet-empty {
+  padding: 64px 24px;
+  text-align: center;
+  color: #8b8b82;
+  position: sticky;
+  left: 0;
+  width: 100%;
+}
+.sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  color: #787774;
+  font-size: 13px;
+}
+.application-detail {
+  width: min(560px, calc(100% - 32px));
+}
+.application-detail h2 {
+  font-size: 24px;
+  margin: 0;
+}
+.application-detail h3 {
+  font-size: 16px;
+  margin: 24px 0 12px;
+}
+.application-detail p {
+  font-size: 15px;
+  margin: 0 0 14px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.application-detail form button {
+  margin-top: 12px;
+}
+.original-note {
+  margin: 20px 0;
+  padding: 16px;
+  background: #f0f0ec;
+  border-radius: 5px;
+}
+.original-note h3 {
+  margin: 0 0 8px;
+}
+.original-note p {
+  margin: 0;
+}
+.application-history {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.application-history li {
+  border-top: 1px solid #e7e7e1;
+  padding: 14px 0;
+}
+.application-history span {
+  display: block;
+  font-size: 12px;
+  color: #8b8b82;
+  margin-bottom: 6px;
+}
+.application-history p {
+  margin: 0;
+}
+.application-id {
+  display: block;
+  font-size: 12px;
+  color: #a0a098;
+  overflow-wrap: anywhere;
+  margin-top: 20px;
+}
+@media (max-width: 650px) {
+  .document-page {
+    padding: 24px 20px max(48px, env(safe-area-inset-bottom));
+  }
+  .address-map > a {
+    font-size: 26px;
+  }
+  .address-map iframe {
+    height: 220px;
+  }
+  .address-map {
+    margin-bottom: 30px;
+  }
+  .document-page h2 {
+    margin-top: 32px;
+  }
+  .document-gallery,
+  .document-gallery.count-1,
+  .document-gallery.count-2 {
+    grid-auto-columns: min(64vw, 216px);
+    gap: 10px;
+    margin: 20px 0 30px;
+  }
+  .document-gallery .photo,
+  .document-gallery.count-1 .photo,
+  .document-gallery.count-2 .photo {
+    height: 150px;
+  }
+  .interest-button {
+    min-height: 44px;
+    padding: 10px 18px;
+  }
+  .interest-modal {
+    width: calc(100% - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 20px;
+  }
+  .interest-modal input:not([type="radio"]):not([type="checkbox"]),
+  .interest-modal textarea,
+  .responses input,
+  .responses select,
+  .responses textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .modal-close {
+    height: 44px;
+    width: 44px;
+    min-height: 44px;
+  }
+  .choices span,
+  .room-selectors label {
+    min-height: 46px;
+  }
+  .submit {
+    min-height: 46px;
+  }
+  .modal-heading {
+    margin-bottom: 20px;
+  }
+  .photo-spotlight[open] {
+    grid-template-rows: 90px minmax(0, 1fr) 90px;
+  }
+  .spotlight-top {
+    padding: 10px max(12px, env(safe-area-inset-right)) 10px
+      max(12px, env(safe-area-inset-left));
+  }
+  .spotlight-close,
+  .spotlight-controls > button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .spotlight-thumbnails button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+  .spotlight-controls {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .responses,
+  .spreadsheet-admin {
+    padding: 24px 16px 48px;
+    max-width: 100%;
+  }
+  .responses .admin-heading {
+    margin: 24px 0;
+  }
+  .responses .admin-heading h1 {
+    font-size: 28px;
+  }
+  .responses button,
+  .responses .button {
+    min-height: 44px;
+  }
+  .sheet-toolbar {
+    gap: 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .sheet-search {
+    grid-column: 1/-1;
+    min-width: 0;
+    max-width: none;
+  }
+  .sheet-filter {
+    min-width: 0;
+  }
+  .responses .sheet-toolbar input,
+  .responses .sheet-toolbar select {
+    height: 44px;
+    font-size: 16px;
+  }
+  .sheet-export {
+    grid-column: 1/-1;
+    margin: 0 !important;
+    width: 100%;
+  }
+  .sheet-scroll {
+    max-height: 65dvh;
+    min-height: 180px;
+    border-radius: 5px;
+  }
+  .applications-sheet .name-column {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+  }
+  .applications-sheet th,
+  .applications-sheet td {
+    padding: 12px 10px;
+  }
+  .applications-sheet .row-number {
+    padding: 12px 6px;
+  }
+  .responses .status-cell select {
+    font-size: 16px;
+    max-width: 200px;
+  }
+  .applications-sheet .status-cell {
+    min-width: 225px;
+  }
+  .sheet-footer {
+    font-size: 13px;
+  }
+  .application-detail .modal-heading h2 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 360px) {
+  .document-page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .address-map > a {
+    font-size: 24px;
+  }
+  .document-gallery,
+  .document-gallery.count-2 {
+    grid-auto-columns: 70vw;
+  }
+  .spotlight-controls {
+    gap: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .spotlight-controls > button {
+    padding: 8px;
+    font-size: 12px;
+  }
+  .roommate-profile > .photo {
+    width: 160px;
+    height: 210px;
+  }
+}
+.sheet-scroll {
+  scroll-padding: 48px 12px 12px 246px;
+}
+@media (max-width: 650px) {
+  .sheet-scroll {
+    scroll-padding-left: 206px;
+  }
+}
+@media (max-width: 480px) {
+  .applications-sheet .row-number {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+  }
+  .applications-sheet .name-column {
+    left: 32px;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+  }
+  .sheet-scroll {
+    scroll-padding-left: 164px;
+  }
+}

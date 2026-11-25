@@ -54,6 +54,10 @@ test("applications keep status, notes, metadata and history, and reject stale up
   );
   addNote(application.id, "Recontact if availability changes.", "test-agent");
   assert.equal(getApplication(application.id).version, 3);
+  assert.equal(
+    getApplication(application.id).latestInternalNote,
+    "Recontact if availability changes.",
+  );
   assert.equal(activity(application.id).length, 3);
   assert.equal(
     listApplications({
