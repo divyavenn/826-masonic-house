@@ -1007,7 +1007,6 @@ button.photo {
   white-space: normal;
   overflow-wrap: anywhere;
 }
-.sheet-note > div,
 .sheet-note-button {
   display: -webkit-box !important;
   -webkit-box-orient: vertical;
@@ -1322,4 +1321,36 @@ button.photo {
 .inline-room-link:hover {
   background: transparent;
   text-decoration-color: #787774;
+}
+
+.sheet-note-scroll {
+  display: block !important;
+  max-height: 120px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  scrollbar-width: thin;
+  scrollbar-color: #bbbcb3 transparent;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  line-height: 1.6;
+  padding-right: 8px;
+}
+.sheet-note-scroll:focus-visible {
+  outline: 2px solid #7d9fb7;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.sheet-note .sheet-note-button {
+  display: inline-flex !important;
+  width: auto;
+  min-height: 32px !important;
+  margin-top: 6px !important;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.applications-sheet .sheet-note {
+  vertical-align: top;
 }

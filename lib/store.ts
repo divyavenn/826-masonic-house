@@ -30,6 +30,7 @@ export type Application = ApplicationInput & {
   version: number;
   metadata: Record<string, unknown>;
   latestInternalNote: string | null;
+  internalNotes: string | null;
 };
 export type Activity = {
   id: string;
@@ -68,7 +69,7 @@ function db() {
   return connection;
 }
 const fields =
-  "id,created_at AS createdAt,updated_at AS updatedAt,name,phone,room,move_in AS moveIn,stay_type AS stayType,move_out AS moveOut,notes,status,version,metadata,(SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid DESC LIMIT 1) AS latestInternalNote";
+  "id,created_at AS createdAt,updated_at AS updatedAt,name,phone,room,move_in AS moveIn,stay_type AS stayType,move_out AS moveOut,notes,status,version,metadata,(SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid DESC LIMIT 1) AS latestInternalNote,(SELECT group_concat(note, char(10)||char(10)) FROM (SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid)) AS internalNotes";
 function map(row: Record<string, unknown>): Application {
   return {
     ...row,

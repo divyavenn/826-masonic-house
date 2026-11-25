@@ -14,6 +14,7 @@ type Application = {
   version: number;
   metadata: Record<string, unknown>;
   latestInternalNote: string | null;
+  internalNotes: string | null;
 };
 type Activity = {
   id: string;
@@ -303,9 +304,13 @@ export default function Admin() {
               </thead>
               <tbody>
                 {applications.map((a, index) => {
-                  const lastNote = history[a.id]
-                    ?.filter((event) => event.note)
-                    .at(-1);
+                  const internalNotes =
+                    history[a.id]
+                      ?.filter((event) => event.note)
+                      .map((event) => event.note)
+                      .join("\n\n") ??
+                    a.internalNotes ??
+                    a.latestInternalNote;
                   return (
                     <tr key={a.id}>
                       <td className="row-number">{index + 1}</td>
@@ -343,15 +348,30 @@ export default function Admin() {
                         </span>
                       </td>
                       <td className="sheet-note">
-                        <div>{a.notes || "—"}</div>
+                        <div
+                          className="sheet-note-scroll"
+                          role="region"
+                          tabIndex={0}
+                          aria-label={`Applicant notes for ${a.name}`}
+                        >
+                          {a.notes || "—"}
+                        </div>
                       </td>
                       <td className="sheet-note">
+                        <div
+                          className="sheet-note-scroll"
+                          role="region"
+                          tabIndex={0}
+                          aria-label={`Internal notes for ${a.name}`}
+                        >
+                          {internalNotes || "—"}
+                        </div>
                         <button
                           className="sheet-note-button"
                           onClick={() => void openNotes(a)}
                           aria-label={`Notes and history for ${a.name}`}
                         >
-                          {lastNote?.note || a.latestInternalNote || "Add note"}
+                          Notes & history
                         </button>
                       </td>
                       <td className="submitted-cell">

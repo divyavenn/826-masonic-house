@@ -55,6 +55,10 @@ test("applications keep status, notes, metadata and history, and reject stale up
   addNote(application.id, "Recontact if availability changes.", "test-agent");
   assert.equal(getApplication(application.id).version, 3);
   assert.equal(
+    getApplication(application.id).internalNotes,
+    "Applicant withdrew by phone.\n\nRecontact if availability changes.",
+  );
+  assert.equal(
     getApplication(application.id).latestInternalNote,
     "Recontact if availability changes.",
   );
