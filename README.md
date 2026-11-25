@@ -21,7 +21,7 @@ The listing and form are public. `/admin` and the data API use the **same shared
 
 Create a Blueprint from this private repository's `main` branch. `render.yaml` declares one **paid Starter Node service** and a **1 GB persistent disk**. Review Render's current cost before applying the Blueprint. Enter the shared `ADMIN_PASSWORD` when prompted.
 
-- Build: `npm ci && npm run build`
+- Build: `npm ci --include=dev && npm run build`
 - Start: `npm start` (uses Render's `PORT`)
 - Health check: `/api/health`
 - Persistent data: `/var/data/applications.sqlite`
