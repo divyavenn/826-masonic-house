@@ -1,18 +1,25 @@
 "use client";
 import { useRef, useState } from "react";
 import content from "../content.json";
-import PhotoGallery from "./photo-gallery";
+import PhotoGallery, { type GalleryPhoto } from "./photo-gallery";
+const dianaRoomPhotos: readonly GalleryPhoto[] = [
+  {
+    id: 100,
+    src: "/photos/diana-room-1.jpg",
+    alt: "Diana’s room: desk and window",
+  },
+  {
+    id: 101,
+    src: "/photos/diana-room-2.jpg",
+    alt: "Diana’s room: bed and seating area",
+  },
+];
 const headings = ["The House", "The Rooms", "The Roommates"];
 const roommateLinks = [
-  {
-    name: "Diana",
-    handle: "@zawadzki_diana",
-    url: "https://x.com/zawadzki_diana",
-  },
+  { name: "Diana", handle: undefined, url: undefined },
   { name: "Kevin", handle: "@kvdozer", url: "https://x.com/kvdozer" },
 ];
-const isRoommate = (text: string) =>
-  text.startsWith("Diana Zawadski") || text.startsWith("Kevin Hopkins");
+const isRoommate = (text: string) => text === "Diana" || text === "Kevin";
 const chunks: { text: string; images: number[] }[] = [];
 for (const paragraph of content) {
   if (!paragraph.text && !paragraph.images.length) continue;
@@ -23,6 +30,7 @@ for (const paragraph of content) {
 }
 export default function Home() {
   const dialog = useRef<HTMLDialogElement>(null);
+  const [dianaRoomOpen, setDianaRoomOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [rooms, setRooms] = useState<string[]>([]);
   const [stay, setStay] = useState("roommate");
@@ -114,17 +122,39 @@ export default function Home() {
                 <h3>{name}</h3>
                 <p>
                   {bio.slice(0, nameAt)}
-                  {person.name} (
-                  <a
-                    className="social-handle"
-                    href={person.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {person.handle}
-                  </a>
-                  ){bio.slice(nameAt + person.name.length)}
+                  {person.name}
+                  {person.handle && (
+                    <>
+                      {" "}
+                      (
+                      <a
+                        className="social-handle"
+                        href={person.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {person.handle}
+                      </a>
+                      )
+                    </>
+                  )}
+                  {bio.slice(nameAt + person.name.length)}
                 </p>
+                {person.name === "Diana" && (
+                  <p className="sublet-note">
+                    Diana is looking to temporarily sublet{" "}
+                    <button
+                      type="button"
+                      className="inline-room-link"
+                      aria-haspopup="dialog"
+                      onClick={() => setDianaRoomOpen(true)}
+                    >
+                      her room
+                    </button>{" "}
+                    for the month of December. If interested, reach out to{" "}
+                    <a href="mailto:dzawa@live.de">dzawa@live.de</a>.
+                  </p>
+                )}
               </div>
             </article>
           );
@@ -135,9 +165,7 @@ export default function Home() {
               (headings.includes(chunk.text) ? (
                 <h2>{chunk.text}</h2>
               ) : chunk.text.startsWith("Room A -") ||
-                chunk.text.startsWith("Room B -") ||
-                chunk.text.startsWith("Diana Zawadski") ||
-                chunk.text.startsWith("Kevin Hopkins") ? (
+                chunk.text.startsWith("Room B -") ? (
                 <h3>{chunk.text}</h3>
               ) : (
                 <p
@@ -195,8 +223,8 @@ export default function Home() {
                             : id < 12
                               ? "Room B"
                               : id === 12
-                                ? "Diana Zawadski"
-                                : "Kevin Hopkins"
+                                ? "Diana"
+                                : "Kevin"
                       }
                       loading={id === 0 ? "eager" : "lazy"}
                     />
@@ -357,6 +385,14 @@ export default function Home() {
           </form>
         )}
       </dialog>
+      {dianaRoomOpen && (
+        <PhotoGallery
+          selected={100}
+          photos={dianaRoomPhotos}
+          label="Diana’s room"
+          onClose={() => setDianaRoomOpen(false)}
+        />
+      )}
       <PhotoGallery
         selected={selectedPhoto}
         onClose={() => setSelectedPhoto(null)}

@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import content from "../content.json";
-const photos = content
+export type GalleryPhoto = { id: number; alt: string; src?: string };
+const mainPhotos: readonly GalleryPhoto[] = content
   .flatMap((paragraph) => paragraph.images)
   .map((id) => ({
     id,
@@ -13,15 +14,19 @@ const photos = content
           : id < 12
             ? "Room B"
             : id === 12
-              ? "Diana Zawadski"
-              : "Kevin Hopkins",
+              ? "Diana"
+              : "Kevin",
   }));
 export default function PhotoGallery({
   selected,
   onClose,
+  photos = mainPhotos,
+  label = "Photo gallery",
 }: {
   selected: number | null;
   onClose: () => void;
+  photos?: readonly GalleryPhoto[];
+  label?: string;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -53,7 +58,7 @@ export default function PhotoGallery({
       modal.close();
       document.body.style.overflow = overflow;
     };
-  }, [selected]);
+  }, [selected, photos]);
   function go(index: number) {
     const scroller = track.current;
     if (!scroller) return;
@@ -69,9 +74,25 @@ export default function PhotoGallery({
     <dialog
       ref={dialog}
       className="photo-spotlight"
-      aria-label="Photo gallery"
+      aria-label={label}
       onClose={onClose}
       onKeyDown={(e) => {
+        if (e.key === "Tab") {
+          const controls = Array.from(
+            e.currentTarget.querySelectorAll<HTMLButtonElement>(
+              "button:not(:disabled)",
+            ),
+          );
+          const first = controls[0],
+            last = controls[controls.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last?.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first?.focus();
+          }
+        }
         if (e.key === "ArrowRight") {
           e.preventDefault();
           go(current.current + 1);
@@ -123,7 +144,7 @@ export default function PhotoGallery({
         {photos.map((photo, index) => (
           <div key={photo.id} className="spotlight-slide">
             <img
-              src={`/photos/${photo.id}.jpg`}
+              src={photo.src || `/photos/${photo.id}.jpg`}
               alt={photo.alt}
               draggable={false}
               loading={
@@ -152,7 +173,11 @@ export default function PhotoGallery({
               aria-current={active === index ? "true" : undefined}
               onClick={() => go(index)}
             >
-              <img src={`/photos/${photo.id}.jpg`} alt="" loading="lazy" />
+              <img
+                src={photo.src || `/photos/${photo.id}.jpg`}
+                alt=""
+                loading="lazy"
+              />
             </button>
           ))}
         </div>
