@@ -25,6 +25,7 @@ export function GET(request: Request) {
       "updatedAt",
       "name",
       "phone",
+      "email",
       "room",
       "stayType",
       "moveIn",

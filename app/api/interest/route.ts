@@ -18,6 +18,9 @@ export async function POST(request: Request) {
     if (p.website) return json({ ok: true });
     const name = text(p.name, "Name"),
       phone = text(p.phone, "Phone");
+    const email = text(p.email, "Email", 254);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      throw new HttpError("Enter a valid email address.");
     if (phone.replace(/\D/g, "").length < 7)
       throw new HttpError("Enter a valid phone number.");
     if (!["A", "B", "both"].includes(p.room as string))
@@ -32,6 +35,7 @@ export async function POST(request: Request) {
     createApplication({
       name,
       phone,
+      email,
       room: p.room as "A" | "B" | "both",
       stayType: p.stayType as "roommate" | "sublet",
       moveIn,

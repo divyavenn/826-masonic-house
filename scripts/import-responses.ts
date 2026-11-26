@@ -50,6 +50,7 @@ for (const row of rows) {
     {
       name: row.name,
       phone: row.phone,
+      email: typeof row.email === "string" ? row.email : null,
       room: row.room,
       moveIn: row.moveIn,
       stayType: row.stayType,

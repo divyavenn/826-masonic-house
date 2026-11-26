@@ -5,6 +5,7 @@ type Application = {
   createdAt: string;
   name: string;
   phone: string;
+  email: string | null;
   room: string;
   stayType: string;
   moveIn: string;
@@ -292,6 +293,7 @@ export default function Admin() {
                     Name
                   </th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Email</th>
                   <th scope="col">Room</th>
                   <th scope="col">Stay</th>
                   <th scope="col">Move-in</th>
@@ -324,6 +326,13 @@ export default function Admin() {
                       </th>
                       <td>
                         <a href={`tel:${a.phone}`}>{a.phone}</a>
+                      </td>
+                      <td>
+                        {a.email ? (
+                          <a href={`mailto:${a.email}`}>{a.email}</a>
+                        ) : (
+                          "—"
+                        )}
                       </td>
                       <td>{a.room === "both" ? "A + B" : a.room}</td>
                       <td>{a.stayType}</td>
@@ -428,6 +437,12 @@ export default function Admin() {
           <>
             <p>
               <a href={`tel:${selected.phone}`}>{selected.phone}</a>
+              {selected.email && (
+                <>
+                  <br />
+                  <a href={`mailto:${selected.email}`}>{selected.email}</a>
+                </>
+              )}
             </p>
             {selected.notes && (
               <div className="original-note">

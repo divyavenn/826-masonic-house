@@ -47,17 +47,30 @@
           },
           "room": {
             "type": "string",
-            "enum": ["A", "B", "both"]
+            "enum": [
+              "A",
+              "B",
+              "both"
+            ]
           },
           "stayType": {
             "type": "string",
-            "enum": ["roommate", "sublet"]
+            "enum": [
+              "roommate",
+              "sublet"
+            ]
           },
           "moveOut": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "notes": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Original applicant-provided notes; internal notes are in activity."
           },
           "status": {
@@ -80,6 +93,13 @@
           "metadata": {
             "type": "object",
             "additionalProperties": true
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email address; null for responses submitted before email was required."
           }
         },
         "required": [
@@ -95,35 +115,60 @@
           "notes",
           "status",
           "version",
-          "metadata"
+          "metadata",
+          "email"
         ]
       },
       "Activity": {
         "type": "object",
         "properties": {
           "id": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "applicationId": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "createdAt": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "actor": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "type": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "note": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "fromStatus": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "toStatus": {
-            "type": ["string", "null"]
+            "type": [
+              "string",
+              "null"
+            ]
           }
         }
       },
@@ -140,7 +185,10 @@
             }
           }
         },
-        "required": ["application", "activity"]
+        "required": [
+          "application",
+          "activity"
+        ]
       },
       "Error": {
         "type": "object",
@@ -149,7 +197,9 @@
             "type": "string"
           }
         },
-        "required": ["error"]
+        "required": [
+          "error"
+        ]
       }
     }
   },
@@ -182,7 +232,11 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["A", "B", "both"]
+              "enum": [
+                "A",
+                "B",
+                "both"
+              ]
             }
           },
           {
@@ -237,7 +291,10 @@
                       "type": "integer"
                     },
                     "nextOffset": {
-                      "type": ["integer", "null"]
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     }
                   }
                 }
@@ -591,7 +648,9 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["text"],
+                "required": [
+                  "text"
+                ],
                 "properties": {
                   "text": {
                     "type": "string",
@@ -714,7 +773,11 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["A", "B", "both"]
+              "enum": [
+                "A",
+                "B",
+                "both"
+              ]
             }
           },
           {

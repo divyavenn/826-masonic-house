@@ -16,6 +16,7 @@ export type Status = (typeof statuses)[number];
 export type ApplicationInput = {
   name: string;
   phone: string;
+  email?: string | null;
   room: "A" | "B" | "both";
   moveIn: string;
   stayType: "roommate" | "sublet";
@@ -23,6 +24,7 @@ export type ApplicationInput = {
   notes: string | null;
 };
 export type Application = ApplicationInput & {
+  email: string | null;
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -60,16 +62,24 @@ function db() {
     "PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;",
   );
   connection.exec(`BEGIN IMMEDIATE;
- CREATE TABLE IF NOT EXISTS applications(id TEXT PRIMARY KEY,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,name TEXT NOT NULL,phone TEXT NOT NULL,room TEXT NOT NULL,move_in TEXT NOT NULL,stay_type TEXT NOT NULL,move_out TEXT,notes TEXT,status TEXT NOT NULL DEFAULT 'new',version INTEGER NOT NULL DEFAULT 1,metadata TEXT NOT NULL DEFAULT '{}');
+ CREATE TABLE IF NOT EXISTS applications(id TEXT PRIMARY KEY,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,name TEXT NOT NULL,phone TEXT NOT NULL,email TEXT,room TEXT NOT NULL,move_in TEXT NOT NULL,stay_type TEXT NOT NULL,move_out TEXT,notes TEXT,status TEXT NOT NULL DEFAULT 'new',version INTEGER NOT NULL DEFAULT 1,metadata TEXT NOT NULL DEFAULT '{}');
  CREATE INDEX IF NOT EXISTS applications_status_created ON applications(status,created_at DESC,id DESC);
  CREATE TABLE IF NOT EXISTS activity(id TEXT PRIMARY KEY,application_id TEXT NOT NULL REFERENCES applications(id),created_at TEXT NOT NULL,actor TEXT NOT NULL,type TEXT NOT NULL,note TEXT,from_status TEXT,to_status TEXT);
  CREATE INDEX IF NOT EXISTS activity_application ON activity(application_id,created_at,id);
- PRAGMA user_version=1;COMMIT;`);
+ `);
+  if (
+    !connection
+      .prepare("PRAGMA table_info(applications)")
+      .all()
+      .some((column) => column.name === "email")
+  )
+    connection.exec("ALTER TABLE applications ADD COLUMN email TEXT");
+  connection.exec("PRAGMA user_version=2;COMMIT;");
   database = connection;
   return connection;
 }
 const fields =
-  "id,created_at AS createdAt,updated_at AS updatedAt,name,phone,room,move_in AS moveIn,stay_type AS stayType,move_out AS moveOut,notes,status,version,metadata,(SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid DESC LIMIT 1) AS latestInternalNote,(SELECT group_concat(note, char(10)||char(10)) FROM (SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid)) AS internalNotes";
+  "id,created_at AS createdAt,updated_at AS updatedAt,name,phone,email,room,move_in AS moveIn,stay_type AS stayType,move_out AS moveOut,notes,status,version,metadata,(SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid DESC LIMIT 1) AS latestInternalNote,(SELECT group_concat(note, char(10)||char(10)) FROM (SELECT note FROM activity WHERE application_id=applications.id AND note IS NOT NULL ORDER BY rowid)) AS internalNotes";
 function map(row: Record<string, unknown>): Application {
   return {
     ...row,
@@ -132,7 +142,7 @@ export function createApplication(
   return transaction(() => {
     db()
       .prepare(
-        "INSERT INTO applications(id,created_at,updated_at,name,phone,room,move_in,stay_type,move_out,notes) VALUES(?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO applications(id,created_at,updated_at,name,phone,email,room,move_in,stay_type,move_out,notes) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
       )
       .run(
         id,
@@ -140,6 +150,7 @@ export function createApplication(
         createdAt,
         input.name,
         input.phone,
+        input.email || null,
         input.room,
         input.moveIn,
         input.stayType,

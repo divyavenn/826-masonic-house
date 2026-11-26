@@ -293,6 +293,17 @@ export default function Home() {
                   maxLength={200}
                 />
               </label>
+              <label className="wide">
+                Email address
+                <input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  name="email"
+                  required
+                  maxLength={254}
+                />
+              </label>
               <fieldset className="wide">
                 <legend>Room</legend>
                 <div className="room-selectors">
